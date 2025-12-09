@@ -1,12 +1,26 @@
+// src/app/tree/components/buttons/TreeShareButton.tsx
 'use client';
 
-export default function TreeShareButton({ children, disabled }: { children?: React.ReactNode; disabled?: boolean }) {
+import React from 'react';
+import { toast } from 'react-hot-toast';
+
+interface TreeShareButtonProps {
+  children?: React.ReactNode;
+  disabled?: boolean;
+  onShared?: (url: string) => void; // 나중에 공유 기록 남기고 싶으면
+}
+
+export default function TreeShareButton({ children, disabled, onShared }: TreeShareButtonProps) {
   const handleShare = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href);
-      alert('링크가 복사되었습니다!');
-    } catch {
-      alert('복사에 실패했습니다.');
+      const urlToCopy = window.location.href;
+
+      await navigator.clipboard.writeText(urlToCopy);
+      toast.success(' 링크가 복사되었어요!');
+      onShared?.(urlToCopy);
+    } catch (err) {
+      console.error(err);
+      toast.error('링크 복사에 실패했어요 ');
     }
   };
 

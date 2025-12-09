@@ -23,7 +23,7 @@ export default function TreeDetailPage() {
   const { user, isLoaded, loadUser } = useAuthStore();
   const isMyTree = !!user && user.loginId === slug;
 
-  // ⭐ 비회원이 저장 한 번이라도 했는지
+  // 비회원: 한 번이라도 저장했는지
   const [hasDecorated, setHasDecorated] = useState(false);
 
   useEffect(() => {
@@ -47,7 +47,6 @@ export default function TreeDetailPage() {
 
   const hasUnsaved = unsavedDecorations.length > 0;
 
-  // ⭐ 저장 버튼
   const handleSaveClick = async () => {
     const ok = await saveDecorations();
     if (ok) {
@@ -82,21 +81,30 @@ export default function TreeDetailPage() {
           <TreeShareButton>트리 공유하기</TreeShareButton>
         ) : (
           <>
+            {/* 1) 비회원 + 아직 아무것도 안 붙임 */}
             {!hasDecorated && !hasUnsaved && <TreeDecorateButton onClickAction={() => setShowDecoSheet(true)}>트리 장식하기</TreeDecorateButton>}
 
+            {/* 2) 비회원 + unsaved 있음 */}
             {!hasDecorated && hasUnsaved && (
               <div
-                className="sticky bottom-0 left-0 right-0
+                className="
+                  sticky bottom-0 left-0 right-0
                   pb-[env(safe-area-inset-bottom)]
-                  bg-transparent flex justify-center z-30"
+                  bg-transparent
+                  flex justify-center
+                  z-30
+                "
               >
                 <div className="w-[calc(100%-32px)] max-w-[382px] flex gap-3">
                   <button
                     type="button"
                     onClick={cancelUnsavedDecorations}
-                    className="flex-1 h-12 bg-gray-200 text-gray-700
+                    className="
+                      flex-1 h-12 bg-gray-200 text-gray-700
                       flex items-center justify-center
-                      rounded-xl font-semibold hover:bg-gray-300 transition shadow-md"
+                      rounded-xl font-semibold
+                      hover:bg-gray-300 transition shadow-md
+                    "
                     style={{ fontFamily: 'var(--font-ownglyph)' }}
                   >
                     취소
@@ -105,10 +113,12 @@ export default function TreeDetailPage() {
                   <button
                     type="button"
                     onClick={handleSaveClick}
-                    className="flex-1 h-12 bg-green-600 text-white
+                    className="
+                      flex-1 h-12 bg-green-600 text-white
                       rounded-xl flex items-center justify-center
                       hover:opacity-90 active:opacity-80
-                      transition font-semibold shadow-md"
+                      transition font-semibold shadow-md
+                    "
                     style={{ fontFamily: 'var(--font-ownglyph)' }}
                   >
                     장식 저장하기
@@ -117,6 +127,7 @@ export default function TreeDetailPage() {
               </div>
             )}
 
+            {/* 3) 비회원 + 저장 완료 후 */}
             {hasDecorated && <TreeDecorateButton onClickAction={() => router.push('/auth/signup')}>내 트리 만들러 가기</TreeDecorateButton>}
           </>
         )}
