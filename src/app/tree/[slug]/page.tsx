@@ -49,7 +49,7 @@ export default function TreeDetailPage() {
   const handleSaveClick = async () => {
     const ok = await saveDecorations();
     if (ok) {
-      setHasDecorated(true); // ✅ 저장 성공 후 "내 트리 만들러 가기"로 상태 변경
+      setHasDecorated(true); //  저장 성공 후 "내 트리 만들러 가기"로 상태 변경
     }
   };
 
@@ -74,7 +74,7 @@ export default function TreeDetailPage() {
       {/* 하단 버튼 영역 */}
       <div className="mt-auto pb-2 shrink-0">
         {isMyTree ? (
-          // ✅ 내 트리일 때: 기존처럼 공유 버튼 1개
+          //  내 트리일 때: 기존처럼 공유 버튼 1개
           <TreeShareButton>트리 공유하기</TreeShareButton>
         ) : (
           <>
