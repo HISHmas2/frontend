@@ -95,11 +95,24 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
   };
 
   /* =========================
-     4) SAVE: UI(%) -> Api(px)
-      - 실패 시 롤백
+     4) 취소: 방금 붙인 것 롤백 (API 호출 X)
   ========================= */
-  const saveDecorations = async () => {
+  const cancelUnsavedDecorations = () => {
     if (unsavedDecorations.length === 0) return;
+
+    const unsavedIds = new Set(unsavedDecorations.map((d) => d.id));
+    setDecorations((prev) => prev.filter((d) => !unsavedIds.has(d.id)));
+    setUnsavedDecorations([]);
+    setPendingDeco(null);
+  };
+
+  /* =========================
+     5) SAVE: UI(%) -> Api(px)
+      - 실패 시 롤백
+      - 성공 여부 boolean 리턴
+  ========================= */
+  const saveDecorations = async (): Promise<boolean> => {
+    if (unsavedDecorations.length === 0) return false;
 
     const unsavedIds = new Set(unsavedDecorations.map((d) => d.id));
 
@@ -115,6 +128,7 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
 
       alert('저장 완료!');
       setUnsavedDecorations([]);
+      return true;
     } catch {
       alert('저장 실패');
 
@@ -122,6 +136,7 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
       setDecorations((prev) => prev.filter((d) => !unsavedIds.has(d.id)));
       setUnsavedDecorations([]);
       setPendingDeco(null);
+      return false;
     }
   };
 
@@ -137,5 +152,6 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
     pickDecoration,
     placeDecoration,
     saveDecorations,
+    cancelUnsavedDecorations,
   };
 }
