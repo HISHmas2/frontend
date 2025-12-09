@@ -1,3 +1,4 @@
+// src/app/auth/signup/page.tsx
 'use client';
 
 import { useRouter } from 'next/navigation';
@@ -5,6 +6,7 @@ import { useAuthStore } from '@/src/stores/useAuthStore';
 import SignupForm from './components/SignupForm';
 import SignupButton from './components/SignupButton';
 import { useState } from 'react';
+import toast from 'react-hot-toast'; // ✅ react-hot-toast 사용
 
 export default function Page() {
   const router = useRouter();
@@ -28,11 +30,13 @@ export default function Page() {
     setLoading(false);
 
     if (!success) {
-      setError('회원가입에 실패했습니다. 다시 시도해주세요.');
+      const msg = '회원가입에 실패했습니다. 다시 시도해주세요.';
+      setError(msg);
+      toast.error(msg); // ✅ 실패 토스트
       return;
     }
 
-    alert('회원가입이 완료되었습니다! 이제 로그인 해주세요 😊');
+    toast.success('🎉 회원가입이 완료되었습니다! 이제 로그인 해주세요.'); // ✅ 성공 토스트
     router.push('/auth/login');
   }
 
