@@ -29,6 +29,7 @@ export default function TreeDecorateButton({
           flex items-center justify-center
           hover:opacity-90 active:opacity-80
           transition font-semibold
+          text-lg
           disabled:opacity-50 disabled:cursor-not-allowed
           shadow-md
         "

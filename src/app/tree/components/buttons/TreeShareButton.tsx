@@ -1,4 +1,3 @@
-// src/app/tree/components/buttons/TreeShareButton.tsx
 'use client';
 
 import React from 'react';
@@ -37,14 +36,15 @@ export default function TreeShareButton({ children, disabled, onShared }: TreeSh
         onClick={handleShare}
         disabled={disabled}
         className="
-          w-[calc(100%-32px)] max-w-[382px] h-12
-          bg-green-600 text-white rounded-xl
-          flex items-center justify-center
-          hover:opacity-90 active:opacity-80
-          transition font-semibold
-          disabled:opacity-50 disabled:cursor-not-allowed
-          shadow-md
-        "
+  w-[calc(100%-32px)] max-w-[382px] h-12
+  bg-green-600 text-white rounded-xl
+  flex items-center justify-center
+  hover:opacity-90 active:opacity-80
+  transition font-semibold
+  text-lg
+  disabled:opacity-50 disabled:cursor-not-allowed
+  shadow-md
+"
         style={{ fontFamily: 'var(--font-ownglyph)' }}
       >
         {children || '트리 공유하기'}
