@@ -126,12 +126,9 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
 
       await saveDecorationsApi(payload);
 
-      alert('저장 완료!');
       setUnsavedDecorations([]);
       return true;
     } catch {
-      alert('저장 실패');
-
       // ✅ 방금 붙인 것 롤백
       setDecorations((prev) => prev.filter((d) => !unsavedIds.has(d.id)));
       setUnsavedDecorations([]);

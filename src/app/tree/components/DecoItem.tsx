@@ -1,4 +1,3 @@
-// src/app/tree/components/DecoItem.tsx
 'use client';
 
 import Image from 'next/image';

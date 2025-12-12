@@ -3,13 +3,12 @@
 
 import { useState } from 'react';
 import { createLetterApi } from '@/src/api/letters';
+import { toast } from 'react-hot-toast';
 
 interface LetterWriteModalProps {
   open: boolean;
   onCloseAction: () => void;
-
   receiverSlug: string;
-
   onSubmitAction: (payload: { from: string; content: string; createdAt: string }) => void;
 }
 
@@ -22,7 +21,7 @@ export default function LetterWriteModal({ open, onCloseAction, onSubmitAction, 
 
   const handleSubmit = async () => {
     if (!from.trim() || !content.trim()) {
-      alert('이름과 내용을 입력해주세요!');
+      toast.error('이름과 내용을 입력해주세요 📮');
       return;
     }
     if (loading) return;
@@ -30,7 +29,7 @@ export default function LetterWriteModal({ open, onCloseAction, onSubmitAction, 
     setLoading(true);
     try {
       const res = await createLetterApi({
-        login_id: receiverSlug, // ✅ slug 그대로 보냄
+        login_id: receiverSlug,
         sender_name: from,
         content,
       });
@@ -38,15 +37,16 @@ export default function LetterWriteModal({ open, onCloseAction, onSubmitAction, 
       onSubmitAction({
         from: res.letter.sender_name,
         content: res.letter.content,
-        createdAt: res.letter.created_at.split('T')[0], // 날짜만
+        createdAt: res.letter.created_at.split('T')[0],
       });
 
-      alert(res.message); // "편지가 정상적으로 저장되었습니다."
+      toast.success('✉️ 편지가 전달되었어요!');
       setFrom('');
       setContent('');
       onCloseAction();
-    } catch {
-      alert('편지 저장 실패');
+    } catch (err) {
+      console.error(err);
+      toast.error('편지 저장에 실패했어요 😢');
     } finally {
       setLoading(false);
     }
@@ -70,7 +70,7 @@ export default function LetterWriteModal({ open, onCloseAction, onSubmitAction, 
             value={from}
             onChange={(e) => setFrom(e.target.value)}
             placeholder="이름을 입력해주세요"
-            className="w-full mt-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500  placeholder:text-gray-400"
+            className="w-full mt-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 placeholder:text-gray-400"
             style={{ fontFamily: 'var(--font-ownglyph)' }}
           />
         </div>
@@ -83,8 +83,8 @@ export default function LetterWriteModal({ open, onCloseAction, onSubmitAction, 
             placeholder="따뜻한 편지를 남겨주세요 🎄"
             rows={10}
             className="w-full mt-1 px-3 py-2 border rounded-lg resize-none
-    focus:outline-none focus:ring-2 focus:ring-green-500
-    placeholder:text-gray-400 placeholder:opacity-100"
+              focus:outline-none focus:ring-2 focus:ring-green-500
+              placeholder:text-gray-400 placeholder:opacity-100"
             style={{ fontFamily: 'var(--font-ownglyph)' }}
           />
         </div>
