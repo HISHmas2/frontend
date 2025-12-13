@@ -7,8 +7,8 @@ export interface Decoration {
   id: string;
   type: DecoType;
   src: string;
-  x: number; // %
-  y: number; // %
+  x: number; // ✅ px
+  y: number; // ✅ px
 }
 
 export default function DecoItem({ d }: { d: Decoration }) {
@@ -16,8 +16,8 @@ export default function DecoItem({ d }: { d: Decoration }) {
     <div
       className="absolute z-10 w-12 h-12"
       style={{
-        left: `${d.x}%`,
-        top: `${d.y}%`,
+        left: d.x,
+        top: d.y,
         transform: 'translate(-50%, -50%)',
       }}
     >
