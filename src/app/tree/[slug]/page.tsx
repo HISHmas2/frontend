@@ -71,7 +71,7 @@ export default function TreeDetailPage() {
   };
 
   return (
-    <div className="h-full flex flex-col px-4 py-4 bg-transparent relative">
+    <div className="min-h-[100svh] flex flex-col px-4 py-4 bg-transparent relative">
       {/* 상단 */}
       <div className="mb-4 text-center">
         <h2 className="text-2xl font-bold text-green-800" style={{ fontFamily: 'var(--font-ownglyph)' }}>
@@ -89,7 +89,7 @@ export default function TreeDetailPage() {
       </div>
 
       {/* 트리 영역 */}
-      <div ref={treeRef} onClick={placeDecoration} className="relative w-full flex-1">
+      <div ref={treeRef} onClick={placeDecoration} className="relative w-full flex-1 min-h-0">
         {isTreeLoading && <div className="absolute inset-0 flex items-center justify-center text-base text-gray-500">트리 불러오는 중...</div>}
 
         {decorations.map((d) => (
