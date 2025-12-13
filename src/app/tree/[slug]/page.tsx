@@ -82,16 +82,21 @@ export default function TreeDetailPage() {
         <p className="text-base text-gray-600 mt-1" style={{ fontFamily: 'var(--font-ownglyph)' }}>
           장식 {decorations.length}개
         </p>
-        {!isMyTree && pendingDeco && (
-          <p className="text-sm text-green-700 mt-1" style={{ fontFamily: 'var(--font-ownglyph)' }}>
-            트리에 붙일 위치를 눌러주세요!
-          </p>
-        )}
       </div>
 
       {/* 트리 영역 */}
       <div ref={treeRef} onClick={placeDecoration} className="relative w-full flex-1">
         {isTreeLoading && <div className="absolute inset-0 flex items-center justify-center text-base text-gray-500">트리 불러오는 중...</div>}
+
+        {/* ✅ 안내 문구: 레이아웃 안 밀리게 오버레이 */}
+        {!isMyTree && pendingDeco && (
+          <div className="absolute top-3 left-1/2 -translate-x-1/2 z-50">
+            <div className="px-4 py-2 rounded-full bg-black/50 text-white text-sm" style={{ fontFamily: 'var(--font-ownglyph)' }}>
+              트리에 붙일 위치를 눌러주세요!
+            </div>
+          </div>
+        )}
+
         {decorations.map((d) => (
           <DecoItem key={d.id} d={d} />
         ))}
@@ -110,7 +115,7 @@ export default function TreeDetailPage() {
                 <div className="w-[calc(100%-32px)] max-w-[382px] flex gap-3">
                   <button
                     onClick={cancelUnsavedDecorations}
-                    className="flex-1 h-12 bg-gray-200 rounded-xl text-base font-semibold"
+                    className="flex-1 h-12 bg-gray-200 rounded-xl text-gray-600 font-semibold"
                     style={{ fontFamily: 'var(--font-ownglyph)' }}
                   >
                     취소
