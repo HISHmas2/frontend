@@ -7,10 +7,10 @@ interface TreeShareButtonProps {
   children?: React.ReactNode;
   disabled?: boolean;
 
-  /** ✅ page에서 만든 공유 URL(utm 포함)을 그대로 복사 */
+  /**  page에서 만든 공유 URL(utm 포함)을 그대로 복사 */
   shareUrl: string;
 
-  /** ✅ 나중에 공유 기록/GA 이벤트를 붙이고 싶으면 여기에서 */
+  /**  나중에 공유 기록/GA 이벤트를 붙이고 싶으면 여기에서 */
   onShared?: (url: string) => void;
 }
 
