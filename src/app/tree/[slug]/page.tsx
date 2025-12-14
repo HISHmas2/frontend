@@ -1,8 +1,7 @@
-// src/app/tree/[slug]/page.tsx
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 import TreeShareButton from '@/src/app/tree/components/buttons/TreeShareButton';
@@ -64,6 +63,16 @@ export default function TreeDetailPage() {
     }
   };
 
+  /**
+   * 공유 URL (utm 포함)
+   * - window.location.href 사용 ❌
+   * - 의도한 트리 주소만 복사
+   */
+  const shareUrl = useMemo(() => {
+    if (typeof window === 'undefined') return '';
+    return `${window.location.origin}/tree/${slug}` + `?utm_source=share&utm_medium=copy&utm_campaign=tree`;
+  }, [slug]);
+
   return (
     <div
       className="
@@ -88,7 +97,6 @@ export default function TreeDetailPage() {
       <div ref={treeRef} onClick={placeDecoration} className="relative w-full flex-1">
         {isTreeLoading && <div className="absolute inset-0 flex items-center justify-center text-base text-gray-500">트리 불러오는 중...</div>}
 
-        {/* ✅ 안내 문구: 레이아웃 안 밀리게 오버레이 */}
         {!isMyTree && pendingDeco && (
           <div className="absolute top-3 left-1/2 -translate-x-1/2 z-50">
             <div className="px-4 py-2 rounded-full bg-black/50 text-white text-sm" style={{ fontFamily: 'var(--font-ownglyph)' }}>
@@ -105,7 +113,9 @@ export default function TreeDetailPage() {
       {/* 하단 버튼 */}
       <div className="mt-auto">
         {isMyTree ? (
-          <TreeShareButton>트리 공유하기</TreeShareButton>
+          <TreeShareButton shareUrl={shareUrl} disabled={!shareUrl}>
+            트리 공유하기
+          </TreeShareButton>
         ) : (
           <>
             {!hasDecorated && !hasUnsaved && <TreeDecorateButton onClickAction={() => setShowDecoSheet(true)}>트리 장식하기</TreeDecorateButton>}
