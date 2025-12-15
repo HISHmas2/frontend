@@ -5,13 +5,13 @@ import Image from 'next/image';
 
 export default function TreeLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="w-full min-h-[100svh] flex justify-center bg-white">
-      <div className="relative w-full max-w-[414px] min-h-[100svh] bg-white">
+    <div className="w-full min-h-screen flex justify-center bg-white">
+      <div className="relative w-full max-w-[414px] min-h-screen bg-white">
         {/* Header */}
         <Header />
 
         {/* 트리 배경 */}
-        <div className="relative w-full min-h-[calc(100svh-56px)] mt-[56px]">
+        <div className="relative w-full min-h-[calc(100vh-56px)] mt-[56px]">
           <Image src="/images/Tree_v02.png" alt="tree background" fill priority className="object-cover object-bottom pointer-events-none select-none" />
 
           {/* 페이지 내용 */}

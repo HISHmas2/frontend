@@ -83,17 +83,18 @@ export default function TreeDetailPage() {
         relative
       "
     >
-      {/* 상단 */}
-      <div className="mb-4 text-center">
-        <h2 className="text-2xl font-bold text-green-800" style={{ fontFamily: 'var(--font-ownglyph)' }}>
-          {treeTitle}
+      {/* 🔼 상단 */}
+      <div className="mb-4 text-left">
+        <h2 className="text-2xl font-bold text-green-800 leading-snug min-h-[36px]" style={{ fontFamily: 'var(--font-ownglyph)' }}>
+          {slug}님의 트리
         </h2>
-        <p className="text-base text-gray-600 mt-1" style={{ fontFamily: 'var(--font-ownglyph)' }}>
+
+        <p className="text-sm text-white mt-1" style={{ fontFamily: 'var(--font-ownglyph)' }}>
           장식 {decorations.length}개
         </p>
       </div>
 
-      {/* 트리 영역 */}
+      {/* 🌲 트리 영역 */}
       <div ref={treeRef} onClick={placeDecoration} className="relative w-full flex-1">
         {isTreeLoading && <div className="absolute inset-0 flex items-center justify-center text-base text-gray-500">트리 불러오는 중...</div>}
 
@@ -110,7 +111,7 @@ export default function TreeDetailPage() {
         ))}
       </div>
 
-      {/* 하단 버튼 */}
+      {/* 🔽 하단 버튼 */}
       <div className="mt-auto">
         {isMyTree ? (
           <TreeShareButton shareUrl={shareUrl} disabled={!shareUrl}>
@@ -146,10 +147,10 @@ export default function TreeDetailPage() {
         )}
       </div>
 
-      {/* Bottom Sheet */}
+      {/* 🧾 Bottom Sheet */}
       {!isMyTree && <DecorationBottomSheet open={showDecoSheet} onClose={() => setShowDecoSheet(false)} onPick={(d) => pickDecoration(d)} />}
 
-      {/* Soft CTA */}
+      {/* ✨ Soft CTA */}
       {!isMyTree && showCTA && <BottomCTA onClose={() => setShowCTA(false)} />}
     </div>
   );

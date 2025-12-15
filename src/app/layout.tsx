@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko" className={ownglyph.variable}>
       <head>
-        {/* ✅ Google Tag Manager (head) */}
+        {/*  Google Tag Manager (head) */}
         {GTM_ID && (
           <Script
             id="gtm-script"
@@ -38,17 +38,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }}
           />
         )}
-        {/* ✅ End GTM */}
+        {/*  End GTM */}
       </head>
 
       <body className="bg-grayscale-5">
-        {/* ✅ Google Tag Manager (noscript) : body 바로 아래 */}
+        {/*  Google Tag Manager (noscript) : body 바로 아래 */}
         {GTM_ID && (
           <noscript>
             <iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`} height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} />
           </noscript>
         )}
-        {/* ✅ End GTM (noscript) */}
+        {/*  End GTM (noscript) */}
 
         {isTree ? (
           <>{children}</>
