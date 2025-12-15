@@ -6,11 +6,7 @@ import { toast } from 'react-hot-toast';
 interface TreeShareButtonProps {
   children?: React.ReactNode;
   disabled?: boolean;
-
-  /**  page에서 만든 공유 URL(utm 포함)을 그대로 복사 */
   shareUrl: string;
-
-  /**  나중에 공유 기록/GA 이벤트를 붙이고 싶으면 여기에서 */
   onShared?: (url: string) => void;
 }
 
@@ -22,7 +18,7 @@ export default function TreeShareButton({ children, disabled, shareUrl, onShared
       onShared?.(shareUrl);
     } catch (err) {
       console.error(err);
-      toast.error('링크 복사에 실패했어요 ');
+      toast.error('링크 복사에 실패했어요');
     }
   };
 
@@ -43,8 +39,7 @@ export default function TreeShareButton({ children, disabled, shareUrl, onShared
           bg-green-600 text-white rounded-xl
           flex items-center justify-center
           hover:opacity-90 active:opacity-80
-          transition font-semibold
-          text-lg
+          transition font-semibold text-lg
           disabled:opacity-50 disabled:cursor-not-allowed
           shadow-md
         "
