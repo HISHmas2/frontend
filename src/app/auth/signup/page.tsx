@@ -32,8 +32,15 @@ export default function Page() {
     if (!success) {
       const msg = '회원가입에 실패했습니다. 다시 시도해주세요.';
       setError(msg);
-      toast.error(msg); // ✅ 실패 토스트
+      toast.error(msg);
       return;
+    }
+
+    if (typeof window !== 'undefined') {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'signup_success',
+      });
     }
 
     toast.success('🎉 회원가입이 완료되었습니다! 이제 로그인 해주세요.'); // ✅ 성공 토스트
