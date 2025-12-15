@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { createLetterApi } from '@/src/api/letters';
 import { toast } from 'react-hot-toast';
+import { pushDataLayer } from '@/src/utils/gtm';
 
 interface LetterWriteModalProps {
   open: boolean;
@@ -32,6 +33,10 @@ export default function LetterWriteModal({ open, onCloseAction, onSubmitAction, 
         login_id: receiverSlug,
         sender_name: from,
         content,
+      });
+
+      pushDataLayer('letter_save_success', {
+        tree_owner: receiverSlug,
       });
 
       onSubmitAction({

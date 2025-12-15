@@ -8,6 +8,7 @@ import { useAuthStore } from '@/src/stores/useAuthStore';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { pushDataLayer } from '@/src/utils/gtm';
 
 export default function Page() {
   const router = useRouter();
@@ -23,7 +24,7 @@ export default function Page() {
     const password = String(formData.get('password') || '');
 
     if (!loginId || !password) {
-      toast.error('아이디/비밀번호를 입력해주세요!'); // ✅ alert 대신 토스트
+      toast.error('아이디/비밀번호를 입력해주세요!');
       return;
     }
 
@@ -32,11 +33,12 @@ export default function Page() {
     setLoading(false);
 
     if (!result) {
-      toast.error('로그인에 실패했습니다. 다시 시도해주세요.'); // ✅ 실패 토스트
+      toast.error('로그인에 실패했습니다. 다시 시도해주세요.');
       return;
     }
+    pushDataLayer('login_success');
 
-    toast.success('로그인에 성공했어요!'); // ✅ 성공 토스트
+    toast.success('로그인에 성공했어요!');
     router.push(`/tree/${loginId}`);
   };
 
