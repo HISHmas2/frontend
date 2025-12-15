@@ -79,10 +79,10 @@ export default function MailboxButton() {
         <Image src="/images/Mailbox_v02.png" alt="mailbox" width={75} height={75} priority />
       </button>
 
-      {/* ✅ 회원: 편지함 읽기 */}
+      {/*  회원: 편지함 읽기 */}
       {isMyTree && <LettersModal open={openRead} onCloseAction={() => setOpenRead(false)} letters={letters} />}
 
-      {/* ✅ 비회원: 편지 쓰기 */}
+      {/*  비회원: 편지 쓰기 */}
       {!isMyTree && (
         <LetterWriteModal open={openWrite} onCloseAction={() => setOpenWrite(false)} receiverSlug={slug} onSubmitAction={handleSubmitLetterAction} />
       )}

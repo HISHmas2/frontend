@@ -49,8 +49,8 @@ export default function DecorationBottomSheet({ open, onClose, onPick }: Decorat
                 onClick={() => onPick(d)}
                 className="aspect-square bg-gray-50 hover:bg-gray-100 rounded-2xl flex flex-col items-center justify-center transition"
               >
-                <Image src={d.src} alt={d.label} width={3000} height={3000} className="object-contain" priority={false} />
-                <div className="text-xs mt-1 text-gray-700">{d.label}</div>
+                <Image src={d.src} alt={d.label} width={64} height={64} className="object-contain" priority={false} />
+                <div className="text-sm mt-2 text-gray-700">{d.label}</div>
               </button>
             ))}
           </div>
