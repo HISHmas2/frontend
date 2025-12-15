@@ -12,6 +12,7 @@ import BottomCTA from '@/src/app/tree/components/BottomCTA';
 import { useAuthStore } from '@/src/stores/useAuthStore';
 import { useTreeDecorations } from '@/src/app/tree/hooks/useTreeDecorations';
 import DecoItem from '@/src/app/tree/components/DecoItem';
+import { pushDataLayer } from '@/src/utils/gtm';
 
 export default function TreeDetailPage() {
   const params = useParams();
@@ -55,6 +56,11 @@ export default function TreeDetailPage() {
   const handleSaveClick = async () => {
     const ok = await saveDecorations();
     if (ok) {
+      //GTM 장식 저장
+      pushDataLayer('tree_save_success', {
+        tree_owner: slug,
+      });
+
       setHasDecorated(true);
       toast.success('🎄 장식이 저장되었어요!');
       setTimeout(() => setShowCTA(true), 700);

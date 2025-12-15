@@ -1,4 +1,3 @@
-// src/app/auth/signup/page.tsx
 'use client';
 
 import { useRouter } from 'next/navigation';
@@ -6,7 +5,8 @@ import { useAuthStore } from '@/src/stores/useAuthStore';
 import SignupForm from './components/SignupForm';
 import SignupButton from './components/SignupButton';
 import { useState } from 'react';
-import toast from 'react-hot-toast'; // ✅ react-hot-toast 사용
+import toast from 'react-hot-toast';
+import { pushDataLayer } from '@/src/utils/gtm';
 
 export default function Page() {
   const router = useRouter();
@@ -36,14 +36,9 @@ export default function Page() {
       return;
     }
 
-    if (typeof window !== 'undefined') {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: 'signup_success',
-      });
-    }
+    pushDataLayer('signup_success');
 
-    toast.success('🎉 회원가입이 완료되었습니다! 이제 로그인 해주세요.'); // ✅ 성공 토스트
+    toast.success('🎉 회원가입이 완료되었습니다! 이제 로그인 해주세요.');
     router.push('/auth/login');
   }
 
