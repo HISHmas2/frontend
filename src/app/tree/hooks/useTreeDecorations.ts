@@ -24,6 +24,10 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
   const [isTreeLoading, setIsTreeLoading] = useState(false);
   const [showDecoSheet, setShowDecoSheet] = useState(false);
 
+  // ⭐ 추가: 트리 주인 이름
+  const [ownerName, setOwnerName] = useState<string | null>(null);
+
+  // (원래 있던 값 유지)
   const treeTitle = useMemo(() => `🎄 ${slug} 님의 트리`, [slug]);
 
   /* =========================
@@ -34,6 +38,9 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
       try {
         setIsTreeLoading(true);
         const data = await getTreeApi(slug);
+
+        // ⭐ owner.name(백엔드가 owner 내려줄 때)
+        setOwnerName(data?.owner_name ?? null);
 
         const mapped: Decoration[] = (data.objects ?? []).map((d) => {
           const type = API_NAME_TO_TYPE[d.name];
@@ -51,6 +58,7 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
         setUnsavedDecorations([]);
       } catch {
         setDecorations([]);
+        setOwnerName(null);
       } finally {
         setIsTreeLoading(false);
       }
@@ -140,6 +148,10 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
   return {
     treeRef,
     treeTitle,
+
+    // ⭐ 추가로 export
+    ownerName,
+
     decorations,
     unsavedDecorations,
     pendingDeco,

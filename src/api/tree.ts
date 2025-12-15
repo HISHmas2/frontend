@@ -10,9 +10,11 @@ export interface ApiObject {
   user_id: string;
 }
 
-// ✅ 스웨거 응답에 message가 같이 오니까 포함(선택)
 export interface GetObjectsResponse {
-  message?: string;
+  message: string;
+
+  owner_name?: string; // ✅ 백엔드 응답에 맞춤
+
   objects: ApiObject[];
 }
 

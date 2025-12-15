@@ -39,6 +39,7 @@ export default function TreeDetailPage() {
   const {
     treeRef,
     treeTitle,
+    ownerName,
     decorations,
     unsavedDecorations,
     pendingDeco,
@@ -56,7 +57,6 @@ export default function TreeDetailPage() {
   const handleSaveClick = async () => {
     const ok = await saveDecorations();
     if (ok) {
-      //GTM 장식 저장
       pushDataLayer('tree_save_success', {
         tree_owner: slug,
       });
@@ -79,12 +79,10 @@ export default function TreeDetailPage() {
 
     const url = new URL(`/tree/${slug}`, window.location.origin);
 
-    // UTM (채널 분석)
     url.searchParams.set('utm_source', 'share');
     url.searchParams.set('utm_medium', 'copy');
     url.searchParams.set('utm_campaign', 'tree');
 
-    // ref (공유한 사용자 식별)
     if (user?.loginId) {
       url.searchParams.set('ref', user.loginId);
     }
@@ -105,7 +103,7 @@ export default function TreeDetailPage() {
       {/* 상단 */}
       <div className="mb-4 text-left">
         <h2 className="text-2xl font-bold text-green-800 leading-snug min-h-[36px]" style={{ fontFamily: 'var(--font-ownglyph)' }}>
-          {slug}님의 트리
+          {ownerName ?? slug}님의 트리
         </h2>
 
         <p className="text-sm text-white mt-1" style={{ fontFamily: 'var(--font-ownglyph)' }}>
