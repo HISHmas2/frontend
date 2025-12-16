@@ -19,7 +19,8 @@ export const metadata: Metadata = {
     siteName: 'HISHmas',
     images: [
       {
-        url: '/og.png', // public/og.png
+        // ✅ 절대 URL + ✅ 버전 파라미터로 카톡 캐시 뚫기
+        url: 'https://www.hishmas.site/og.png?v=2',
         width: 1200,
         height: 630,
         alt: 'HISHmas 미리보기',
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'HISHmas',
     description: '크리스마스 트리를 꾸미고 편지를 남겨요 🎄',
-    images: ['/og.png'],
+    images: ['https://www.hishmas.site/og.png?v=2'],
   },
 };
 
