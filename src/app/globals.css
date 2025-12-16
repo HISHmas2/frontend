@@ -45,6 +45,3 @@ body {
     animation: slide-up 0.35s ease-out;
 }
 
-html, body {
-    overscroll-behavior: none;
-}
