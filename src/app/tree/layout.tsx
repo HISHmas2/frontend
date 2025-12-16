@@ -11,7 +11,7 @@ export default function TreeLayout({ children }: { children: React.ReactNode }) 
         <Header />
 
         {/* 트리 배경 */}
-        <div className="relative w-full min-h-[calc(100vh-56px)] mt-[56px]">
+        <div className="relative w-full min-h-[calc(100svh-56px)] mt-[56px]">
           <Image src="/images/Tree_v02.png" alt="tree background" fill priority className="object-cover object-bottom pointer-events-none select-none" />
 
           {/* 페이지 내용 */}
