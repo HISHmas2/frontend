@@ -44,4 +44,13 @@ body {
 .animate-slide-up {
     animation: slide-up 0.35s ease-out;
 }
+html,
+body {
+    height: 100%;
+    margin: 0;
+    background: transparent;
+}
 
+:root {
+    --app-height: 100vh;
+}

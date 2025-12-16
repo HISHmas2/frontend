@@ -30,7 +30,6 @@ export default function TreeDetailPage() {
     if (!isLoaded) loadUser();
   }, [isLoaded, loadUser]);
 
-  // CTA 5초 자동 닫힘
   useEffect(() => {
     if (!showCTA) return;
     const t = setTimeout(() => setShowCTA(false), 5000);
@@ -68,25 +67,25 @@ export default function TreeDetailPage() {
 
   const shareUrl = useMemo(() => {
     if (typeof window === 'undefined') return '';
-
     const url = new URL(`/tree/${slug}`, window.location.origin);
+
     url.searchParams.set('utm_source', 'share');
     url.searchParams.set('utm_medium', 'copy');
     url.searchParams.set('utm_campaign', 'tree');
 
     if (user?.loginId) url.searchParams.set('ref', user.loginId);
-
     return url.toString();
   }, [slug, user]);
 
   return (
-    <div className="relative h-[calc(100svh-56px)] overflow-hidden">
-      {/* ✅ 배경 레이어: 확실히 아래로 */}
+    // ✅ layout에서 h를 잡아줬으니 여기서는 h-full이 정답
+    <div className="relative h-full overflow-hidden">
+      {/* ✅ 배경 (클릭 막으면 안됨) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <Image src="/images/Background.png" alt="background" fill priority className="object-cover object-center select-none" />
       </div>
 
-      {/* ✅ 콘텐츠 레이어: 위로 */}
+      {/* ✅ 콘텐츠 */}
       <div className="relative z-10 h-full flex flex-col px-4 pt-4 pb-[calc(12px+env(safe-area-inset-bottom))]">
         {/* 상단 */}
         <div className="mb-3 text-left">
@@ -101,10 +100,22 @@ export default function TreeDetailPage() {
 
         {/* 트리 영역 */}
         <div className="flex-1 min-h-0 flex items-center justify-center">
-          <div ref={treeRef} onClick={placeDecoration} className="relative w-full max-w-[520px] aspect-[414/896] -translate-y-12 -translate-x-0.5">
-            {' '}
-            <Image src="/images/Tree.png" alt="tree" fill priority className="object-contain pointer-events-none select-none scale-[1.27]" />
+          <div
+            ref={treeRef}
+            onClick={placeDecoration}
+            className="
+              relative
+              w-full
+              max-w-[560px]
+              aspect-[414/896]
+              -translate-y-10
+              translate-x-[-2px]
+            "
+          >
+            <Image src="/images/Tree.png" alt="tree" fill priority className="object-contain pointer-events-none select-none scale-[1.18]" />
+
             {isTreeLoading && <div className="absolute inset-0 flex items-center justify-center text-base text-gray-500">트리 불러오는 중...</div>}
+
             {!isMyTree && pendingDeco && (
               <div className="absolute top-3 left-1/2 -translate-x-1/2 z-50">
                 <div className="px-4 py-2 rounded-full bg-black/50 text-white text-sm" style={{ fontFamily: 'var(--font-ownglyph)' }}>
@@ -112,14 +123,15 @@ export default function TreeDetailPage() {
                 </div>
               </div>
             )}
+
             {decorations.map((d) => (
               <DecoItem key={d.id} d={d} />
             ))}
           </div>
         </div>
 
-        {/* ✅ 하단 버튼 */}
-        <div className="pt-2">
+        {/* 하단 버튼 */}
+        <div className="pt-2 relative z-40 pointer-events-auto">
           {isMyTree ? (
             <TreeShareButton shareUrl={shareUrl} disabled={!shareUrl}>
               트리 공유하기
@@ -129,7 +141,7 @@ export default function TreeDetailPage() {
               {!hasDecorated && !hasUnsaved && <TreeDecorateButton onClickAction={() => setShowDecoSheet(true)}>트리 장식하기</TreeDecorateButton>}
 
               {!hasDecorated && hasUnsaved && (
-                <div className="relative z-40 pointer-events-auto flex justify-center">
+                <div className="flex justify-center">
                   <div className="w-full max-w-[382px] flex gap-3">
                     <button
                       type="button"
@@ -156,7 +168,9 @@ export default function TreeDetailPage() {
           )}
         </div>
 
+        {/* Bottom Sheet / CTA */}
         {!isMyTree && <DecorationBottomSheet open={showDecoSheet} onClose={() => setShowDecoSheet(false)} onPick={(d) => pickDecoration(d)} />}
+
         {!isMyTree && showCTA && <BottomCTA onClose={() => setShowCTA(false)} />}
       </div>
     </div>
