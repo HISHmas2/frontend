@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -38,7 +39,6 @@ export default function TreeDetailPage() {
 
   const {
     treeRef,
-    treeTitle,
     ownerName,
     decorations,
     unsavedDecorations,
@@ -57,10 +57,7 @@ export default function TreeDetailPage() {
   const handleSaveClick = async () => {
     const ok = await saveDecorations();
     if (ok) {
-      pushDataLayer('tree_save_success', {
-        tree_owner: slug,
-      });
-
+      pushDataLayer('tree_save_success', { tree_owner: slug });
       setHasDecorated(true);
       toast.success('🎄 장식이 저장되었어요!');
       setTimeout(() => setShowCTA(true), 700);
@@ -69,106 +66,99 @@ export default function TreeDetailPage() {
     }
   };
 
-  /**
-   * 🔗 공유 URL
-   * - slug: 트리 주인 (loginId)
-   * - ref : 공유한 사람 (loginId)
-   */
   const shareUrl = useMemo(() => {
     if (typeof window === 'undefined') return '';
 
     const url = new URL(`/tree/${slug}`, window.location.origin);
-
     url.searchParams.set('utm_source', 'share');
     url.searchParams.set('utm_medium', 'copy');
     url.searchParams.set('utm_campaign', 'tree');
 
-    if (user?.loginId) {
-      url.searchParams.set('ref', user.loginId);
-    }
+    if (user?.loginId) url.searchParams.set('ref', user.loginId);
 
     return url.toString();
   }, [slug, user]);
 
   return (
-    <div
-      className="
-        min-h-[100svh]
-        flex flex-col
-        px-4 pt-4
-        pb-[calc(96px+env(safe-area-inset-bottom))]
-        relative
-      "
-    >
-      {/* 상단 */}
-      <div className="mb-4 text-left">
-        <h2 className="text-2xl font-bold text-green-800 leading-snug min-h-[36px]" style={{ fontFamily: 'var(--font-ownglyph)' }}>
-          {ownerName ?? slug}님의 트리
-        </h2>
-
-        <p className="text-sm text-white mt-1" style={{ fontFamily: 'var(--font-ownglyph)' }}>
-          장식 {decorations.length}개
-        </p>
+    <div className="relative h-[calc(100svh-56px)] overflow-hidden">
+      {/* ✅ 배경 레이어: 확실히 아래로 */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <Image src="/images/Background.png" alt="background" fill priority className="object-cover object-center select-none" />
       </div>
 
-      {/* 트리 영역 */}
-      <div ref={treeRef} onClick={placeDecoration} className="relative w-full flex-1">
-        {isTreeLoading && <div className="absolute inset-0 flex items-center justify-center text-base text-gray-500">트리 불러오는 중...</div>}
+      {/* ✅ 콘텐츠 레이어: 위로 */}
+      <div className="relative z-10 h-full flex flex-col px-4 pt-4 pb-[calc(12px+env(safe-area-inset-bottom))]">
+        {/* 상단 */}
+        <div className="mb-3 text-left">
+          <h2 className="text-2xl font-bold text-green-800 leading-snug min-h-[36px]" style={{ fontFamily: 'var(--font-ownglyph)' }}>
+            {ownerName ?? slug}님의 트리
+          </h2>
 
-        {!isMyTree && pendingDeco && (
-          <div className="absolute top-3 left-1/2 -translate-x-1/2 z-50">
-            <div className="px-4 py-2 rounded-full bg-black/50 text-white text-sm" style={{ fontFamily: 'var(--font-ownglyph)' }}>
-              트리에 붙일 위치를 눌러주세요!
-            </div>
-          </div>
-        )}
+          <p className="text-sm text-white mt-1" style={{ fontFamily: 'var(--font-ownglyph)' }}>
+            장식 {decorations.length}개
+          </p>
+        </div>
 
-        {decorations.map((d) => (
-          <DecoItem key={d.id} d={d} />
-        ))}
-      </div>
-
-      {/* 하단 버튼 */}
-      <div className="mt-auto">
-        {isMyTree ? (
-          <TreeShareButton shareUrl={shareUrl} disabled={!shareUrl}>
-            트리 공유하기
-          </TreeShareButton>
-        ) : (
-          <>
-            {!hasDecorated && !hasUnsaved && <TreeDecorateButton onClickAction={() => setShowDecoSheet(true)}>트리 장식하기</TreeDecorateButton>}
-
-            {!hasDecorated && hasUnsaved && (
-              <div className="sticky bottom-0 flex justify-center">
-                <div className="w-[calc(100%-32px)] max-w-[382px] flex gap-3">
-                  <button
-                    onClick={cancelUnsavedDecorations}
-                    className="flex-1 h-12 bg-gray-200 rounded-xl text-gray-600 font-semibold"
-                    style={{ fontFamily: 'var(--font-ownglyph)' }}
-                  >
-                    취소
-                  </button>
-                  <button
-                    onClick={handleSaveClick}
-                    className="flex-1 h-12 bg-green-600 text-white rounded-xl text-base font-semibold"
-                    style={{ fontFamily: 'var(--font-ownglyph)' }}
-                  >
-                    장식 저장하기
-                  </button>
+        {/* 트리 영역 */}
+        <div className="flex-1 min-h-0 flex items-center justify-center">
+          <div ref={treeRef} onClick={placeDecoration} className="relative w-full max-w-[520px] aspect-[414/896] -translate-y-12 -translate-x-0.5">
+            {' '}
+            <Image src="/images/Tree.png" alt="tree" fill priority className="object-contain pointer-events-none select-none scale-[1.27]" />
+            {isTreeLoading && <div className="absolute inset-0 flex items-center justify-center text-base text-gray-500">트리 불러오는 중...</div>}
+            {!isMyTree && pendingDeco && (
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 z-50">
+                <div className="px-4 py-2 rounded-full bg-black/50 text-white text-sm" style={{ fontFamily: 'var(--font-ownglyph)' }}>
+                  트리에 붙일 위치를 눌러주세요!
                 </div>
               </div>
             )}
+            {decorations.map((d) => (
+              <DecoItem key={d.id} d={d} />
+            ))}
+          </div>
+        </div>
 
-            {hasDecorated && <TreeDecorateButton onClickAction={() => router.push('/auth/signup')}>내 트리 만들러 가기</TreeDecorateButton>}
-          </>
-        )}
+        {/* ✅ 하단 버튼 */}
+        <div className="pt-2">
+          {isMyTree ? (
+            <TreeShareButton shareUrl={shareUrl} disabled={!shareUrl}>
+              트리 공유하기
+            </TreeShareButton>
+          ) : (
+            <>
+              {!hasDecorated && !hasUnsaved && <TreeDecorateButton onClickAction={() => setShowDecoSheet(true)}>트리 장식하기</TreeDecorateButton>}
+
+              {!hasDecorated && hasUnsaved && (
+                <div className="relative z-40 pointer-events-auto flex justify-center">
+                  <div className="w-full max-w-[382px] flex gap-3">
+                    <button
+                      type="button"
+                      onClick={cancelUnsavedDecorations}
+                      className="flex-1 h-12 bg-gray-200 rounded-xl text-gray-600 font-semibold"
+                      style={{ fontFamily: 'var(--font-ownglyph)' }}
+                    >
+                      취소
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSaveClick}
+                      className="flex-1 h-12 bg-green-600 text-white rounded-xl text-base font-semibold"
+                      style={{ fontFamily: 'var(--font-ownglyph)' }}
+                    >
+                      장식 저장하기
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {hasDecorated && <TreeDecorateButton onClickAction={() => router.push('/auth/signup')}>내 트리 만들러 가기</TreeDecorateButton>}
+            </>
+          )}
+        </div>
+
+        {!isMyTree && <DecorationBottomSheet open={showDecoSheet} onClose={() => setShowDecoSheet(false)} onPick={(d) => pickDecoration(d)} />}
+        {!isMyTree && showCTA && <BottomCTA onClose={() => setShowCTA(false)} />}
       </div>
-
-      {/* Bottom Sheet */}
-      {!isMyTree && <DecorationBottomSheet open={showDecoSheet} onClose={() => setShowDecoSheet(false)} onPick={(d) => pickDecoration(d)} />}
-
-      {/* Soft CTA */}
-      {!isMyTree && showCTA && <BottomCTA onClose={() => setShowCTA(false)} />}
     </div>
   );
 }
