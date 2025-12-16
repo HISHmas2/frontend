@@ -103,7 +103,7 @@ export default function TreeDetailPage() {
         <div className="flex-1 min-h-0 flex items-center justify-center">
           <div ref={treeRef} onClick={placeDecoration} className="relative w-full max-w-[520px] aspect-[414/896] -translate-y-12 -translate-x-0.5">
             {' '}
-            <Image src="/images/Tree.png" alt="tree" fill priority className="object-contain pointer-events-none select-none scale-[1.3]" />
+            <Image src="/images/Tree.png" alt="tree" fill priority className="object-contain pointer-events-none select-none scale-[1.27]" />
             {isTreeLoading && <div className="absolute inset-0 flex items-center justify-center text-base text-gray-500">트리 불러오는 중...</div>}
             {!isMyTree && pendingDeco && (
               <div className="absolute top-3 left-1/2 -translate-x-1/2 z-50">
