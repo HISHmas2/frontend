@@ -1,4 +1,3 @@
-// src/app/tree/hooks/useTreeDecorations.ts
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -24,22 +23,16 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
   const [isTreeLoading, setIsTreeLoading] = useState(false);
   const [showDecoSheet, setShowDecoSheet] = useState(false);
 
-  // ⭐ 추가: 트리 주인 이름
   const [ownerName, setOwnerName] = useState<string | null>(null);
 
-  // (원래 있던 값 유지)
   const treeTitle = useMemo(() => `🎄 ${slug} 님의 트리`, [slug]);
 
-  /* =========================
-     1) GET: Api(px) -> UI(%)
-  ========================= */
   useEffect(() => {
     const fetchTree = async () => {
       try {
         setIsTreeLoading(true);
         const data = await getTreeApi(slug);
 
-        // ⭐ owner.name(백엔드가 owner 내려줄 때)
         setOwnerName(data?.owner_name ?? null);
 
         const mapped: Decoration[] = (data.objects ?? []).map((d) => {
@@ -67,9 +60,6 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
     if (slug) fetchTree();
   }, [slug]);
 
-  /* =========================
-     2) 장식 선택
-  ========================= */
   const pickDecoration = (deco: { type: DecoType; src: string }) => {
     setPendingDeco({
       id: `temp-${Date.now()}`,
@@ -79,9 +69,6 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
     setShowDecoSheet(false);
   };
 
-  /* =========================
-     3) 트리에 배치 (%로 저장)
-  ========================= */
   const placeDecoration = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isMyTree) return;
     if (!pendingDeco || !treeRef.current) return;
@@ -102,9 +89,6 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
     setPendingDeco(null);
   };
 
-  /* =========================
-     4) 취소: 방금 붙인 것 롤백 (API 호출 X)
-  ========================= */
   const cancelUnsavedDecorations = () => {
     if (unsavedDecorations.length === 0) return;
 
@@ -114,11 +98,6 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
     setPendingDeco(null);
   };
 
-  /* =========================
-     5) SAVE: UI(%) -> Api(px)
-      - 실패 시 롤백
-      - 성공 여부 boolean 리턴
-  ========================= */
   const saveDecorations = async (): Promise<boolean> => {
     if (unsavedDecorations.length === 0) return false;
 
@@ -137,7 +116,6 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
       setUnsavedDecorations([]);
       return true;
     } catch {
-      // ✅ 방금 붙인 것 롤백
       setDecorations((prev) => prev.filter((d) => !unsavedIds.has(d.id)));
       setUnsavedDecorations([]);
       setPendingDeco(null);
@@ -148,10 +126,7 @@ export function useTreeDecorations(slug: string, isMyTree: boolean) {
   return {
     treeRef,
     treeTitle,
-
-    // ⭐ 추가로 export
     ownerName,
-
     decorations,
     unsavedDecorations,
     pendingDeco,
