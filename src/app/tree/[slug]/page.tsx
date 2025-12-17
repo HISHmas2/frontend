@@ -78,14 +78,14 @@ export default function TreeDetailPage() {
   }, [slug, user]);
 
   return (
-    // ✅ layout에서 h를 잡아줬으니 여기서는 h-full이 정답
+    //  layout에서 h를 잡아줬으니 여기서는 h-full이 정답
     <div className="relative h-full overflow-hidden">
-      {/* ✅ 배경 (클릭 막으면 안됨) */}
+      {/*  배경 (클릭 막으면 안됨) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <Image src="/images/Background.png" alt="background" fill priority className="object-cover object-center select-none" />
       </div>
 
-      {/* ✅ 콘텐츠 */}
+      {/*  콘텐츠 */}
       <div className="relative z-10 h-full flex flex-col px-4 pt-4 pb-[calc(12px+env(safe-area-inset-bottom))]">
         {/* 상단 */}
         <div className="mb-3 text-left">
@@ -163,7 +163,27 @@ export default function TreeDetailPage() {
                 </div>
               )}
 
-              {hasDecorated && <TreeDecorateButton onClickAction={() => router.push('/auth/signup')}>내 트리 만들러 가기</TreeDecorateButton>}
+              {hasDecorated && (
+                <div className="sticky bottom-0 left-0 right-0 pb-[env(safe-area-inset-bottom)] bg-transparent flex justify-center z-30">
+                  <button
+                    type="button"
+                    onClick={() => router.push('/auth/signup')}
+                    className="
+        w-[calc(100%-32px)] max-w-[382px] h-12
+        bg-red-600 hover:bg-[#741919]
+        text-white rounded-xl
+        flex items-center justify-center
+        hover:opacity-90 active:opacity-80
+        transition font-semibold
+        text-lg
+        shadow-md
+      "
+                    style={{ fontFamily: 'var(--font-ownglyph)' }}
+                  >
+                    내 트리 만들러 가기
+                  </button>
+                </div>
+              )}
             </>
           )}
         </div>

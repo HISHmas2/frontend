@@ -44,11 +44,11 @@ export default function BottomCTA({ onClose }: BottomCTAProps) {
         {/* 텍스트 */}
         <div className="flex flex-col gap-2 pr-6">
           <p className="text-xl font-semibold text-gray-900 leading-snug" style={{ fontFamily: 'var(--font-ownglyph)' }}>
-            📫 상단 오른쪽에 편지함을 눌러
+            📫 상단 편지함을 눌러 편지를 남기고
           </p>
 
-          <p className="text-lg text-gray-700 leading-snug" style={{ fontFamily: 'var(--font-ownglyph)' }}>
-            따뜻한 편지를 남겨보세요!!
+          <p className="text-xl text-gray-700 leading-snug" style={{ fontFamily: 'var(--font-ownglyph)' }}>
+            하단 버튼으로 트리를 만들어보세요
           </p>
         </div>
       </div>
